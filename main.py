@@ -2,6 +2,7 @@ from flask import Flask, request, redirect, render_template
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+
 app.config['DEBUG'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://build-a-blog:lc101@localhost:8889/build-a-blog'
 app.config['SQLALCHEMY_ECHO'] = True
@@ -31,7 +32,7 @@ def index():
 
     if request.method == "POST":
         post_title = request.form['title']
-        post_content = request.form['content']
+        post_content = request.form['body']
 
         post_title_error = ""
         post_content_error = ""
@@ -49,7 +50,6 @@ def index():
         else:
             return render_template('newpost.html', post_title_error=post_title_error, post_content_error=post_content_error)
 
-    #does this need to be different???:
         db.session.add(post_title)
         db.session.add(post_content)
         db.session.commit()
@@ -60,9 +60,11 @@ def index():
 def create_post():
 
     post_id = int(request.form['post-id'])
-    post = Post.query.get(post-id)
+    post_title = Post.query.get(title)
+    post_content = Post.query.get(content)
 
-    db.session.add(post)
+    db.session.add(post_title)
+    db.session.add(post_content)
     db.session.commit()
 
     return redirect('/blog')
