@@ -18,7 +18,7 @@ class Post(db.Model):
 
 def something_input(string):
     try:
-        good_input = len(string) > 0
+        good_input == len(string) > 0
         return good_input
     except: 
         return False
@@ -47,10 +47,11 @@ def index():
         if not post_title_error and not post_content_error:
             return redirect('/blog')
         else:
-            return render_template('newpost.html')
+            return render_template('newpost.html', post_title_error=post_title_error, post_content_error=post_content_error)
 
     #does this need to be different???:
-        db.session.add(new_post)
+        db.session.add(post_title)
+        db.session.add(post_content)
         db.session.commit()
 
     return render_template('blog.html', posts=get_posts())
