@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My Blog</title>
+        <style type="text/css">
+            .error {
+                color: red;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>
+            <a href="/">View posts</a>
+            <a href="/create">Write a post</a>
+        </h1>
+
+        {% block content %}
+        {% endblock %}
+
+    </body>
+</html>
