@@ -1,0 +1,17 @@
+.navigation {
+    background-image: linear-gradient(23deg, rgb(22, 0, 54) 0%, rgb(65, 0, 145) 41%, rgb(255, 0, 43) 100%);
+    font-family: 'Poppins', sans-serif;
+    top: 0;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.navigation a {
+    color: #fff;
+}
+
+body {
+    font-family: 'PT Sans', sans-serif;
+    padding: 20px;
+}

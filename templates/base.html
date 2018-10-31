@@ -2,17 +2,22 @@
 <html>
     <head>
         <title>My Blog</title>
-        <style type="text/css">
-            .error {
-                color: red;
-            }
-        </style>
+        <link rel= "stylesheet" type="text/css" href= "{{ url_for('static',filename='styles/styles.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/normalize.css') }}">
+        <link href="https://fonts.googleapis.com/css?family=PT+Sans|Poppins|Rosario" rel="stylesheet"> 
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Expires" content="0" />
     </head>
-    <body>
-        <h1>
-            <a href="/">View posts</a>
-            <a href="/create">Write a post</a>
+
+    <header>
+        <h1 class="navigation">
+            <a href="/blog">View posts</a>
+            <a href="/newpost">Write a post</a>
         </h1>
+    </header>
+
+    <body>
 
         {% block content %}
         {% endblock %}

@@ -14,12 +14,13 @@ class Post(db.Model):
     title = db.Column(db.String(120))
     body = db.Column(db.String(120))
 
-    def __init__(self, title):
-        self.title = name
+    def __init__(self, title, body):
+        self.title = title
+        self.body = body
 
 def something_input(string):
     try:
-        good_input == len(string) > 0
+        good_input = len(string) > 0
         return good_input
     except: 
         return False
@@ -30,9 +31,18 @@ def get_posts():
 @app.route('/blog', methods=['POST', 'GET'])
 def index():
 
-    if request.method == "POST":
-        post_title = request.form['title']
-        post_content = request.form['body']
+    posts = Post.query.all()
+    return render_template('blog.html', posts=posts)
+
+@app.route('/newpost', methods=['GET', 'POST'])
+def create_post():
+    
+    if request.method == "GET":
+        return render_template('newpost.html')
+
+    else:
+        post_title = request.form.get('title')
+        post_content = request.form.get('body')
 
         post_title_error = ""
         post_content_error = ""
@@ -46,28 +56,13 @@ def index():
             post_content = ""
 
         if not post_title_error and not post_content_error:
+            new_post = Post(post_title, post_content) #something not quite right here; throwing lots o errors
+            db.session.add(new_post)
+            db.session.commit()
             return redirect('/blog')
         else:
             return render_template('newpost.html', post_title_error=post_title_error, post_content_error=post_content_error)
 
-        db.session.add(post_title)
-        db.session.add(post_content)
-        db.session.commit()
-
-    return render_template('blog.html', posts=get_posts())
-
-@app.route('/newpost', methods=['POST'])
-def create_post():
-
-    post_id = int(request.form['post-id'])
-    post_title = Post.query.get(title)
-    post_content = Post.query.get(content)
-
-    db.session.add(post_title)
-    db.session.add(post_content)
-    db.session.commit()
-
-    return redirect('/blog')
 
 if __name__ == '__main__':
     app.run()
