@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <h1>blog posts!</h1>
+    <h1 class="page-title">Blog posts!</h1>
 
     {% if posts|length == 0 %} <!-- Do I specify a "posts" list somewhere??-->
     <p>No posts yet :/</p>
@@ -10,7 +10,7 @@
     <article>
         {% for post in posts %}
         <section>
-            <h2>{{post.title}}</h2>
+            <h2><a href="/blog?id={0}".format(id)>{{post.title}}</a></h2> <!-- Probably need to edit "id" parameter"-->
             <p>{{post.body}}</p>
         </section>
         <hr />

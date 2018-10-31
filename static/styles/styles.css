@@ -1,17 +1,67 @@
-.navigation {
-    background-image: linear-gradient(23deg, rgb(22, 0, 54) 0%, rgb(65, 0, 145) 41%, rgb(255, 0, 43) 100%);
+body {
+    font-family: 'PT Sans', sans-serif;
+}
+
+header {
     font-family: 'Poppins', sans-serif;
+    background-image: linear-gradient(23deg, rgb(22, 0, 54) 0%, rgb(65, 0, 145) 41%, rgb(255, 0, 43) 100%);
+    display: flex;
+    flex-direction: column;
     top: 0;
     width: 100%;
     margin: 0 auto;
     padding: 0;
+    height: 150px;
+}
+.page-title {
+    text-align: center;
+    font-size: 48px;
+    color: rgb(65, 0, 145);
 }
 
-.navigation a {
+a {
     color: #fff;
+    padding: 25px;
 }
 
-body {
-    font-family: 'PT Sans', sans-serif;
-    padding: 20px;
+section h2 {
+    padding: 15px;
+    justify-content: left;
+}
+
+h2 a {
+    color: rgb(65, 0, 145);
+}
+
+section p {
+    padding: 15px;
+    justify-content: left;
+    max-width: 750px;
+}
+
+.new-post-form {
+    padding: 15px;
+    
+}
+
+textarea {
+    border-radius: 5px;
+    width: 350px;
+    height: 250px;
+}
+
+.text {
+    border-radius: 5px;
+    width: 350px;
+}
+
+footer {
+    background-image: linear-gradient(23deg, rgb(22, 0, 54) 0%, rgb(65, 0, 145) 41%, rgb(255, 0, 43) 100%);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    bottom: 0;
+    width: 100%;
+    margin: 0 auto;
 }

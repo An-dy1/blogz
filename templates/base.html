@@ -10,17 +10,21 @@
         <meta http-equiv="Expires" content="0" />
     </head>
 
-    <header>
-        <h1 class="navigation">
-            <a href="/blog">View posts</a>
-            <a href="/newpost">Write a post</a>
-        </h1>
-    </header>
-
     <body>
+
+        <header>
+            <h1 class="navigation">
+                <a href="/blog">View posts</a>
+                <a href="/newpost">Write a post</a>
+            </h1>
+        </header>
 
         {% block content %}
         {% endblock %}
+
+        <footer>
+            <h2>Check out my real blog at<a href="www.andiefromkc.com">this link</a>.</h2>
+        </footer>
 
     </body>
 </html>

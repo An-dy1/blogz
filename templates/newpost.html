@@ -2,24 +2,28 @@
 
 {% block content %}
 
-<h1>new post</h1>
+<div class="new-post-form">
+    <h1>Write a post:</h1>
 
-<form method="post">
-    <label for="title">
-        <div>Title:</div>
-        <input type="text" name="title" value="{{title}}">
-        <div class="error">
-            <p>{{ post_title_error }}</p>
-        </div>
-    </label>
-    <label for="content">
-        <div>Post:</div>
-        <textarea name="body">{{body}}</textarea>
-        <div class="error">
-            <p>{{ post_content_error }}</p>
-        </div>
-    </label>
-    <input type="submit" value="post it">
-</form>
+    <form method="post">
+        <label for="title">
+            <div>Title:</div>
+            <input class="text" type="text" name="title" value="{{title}}">
+            <div class="error">
+                <p>{{ post_title_error }}</p>
+            </div>
+        </label>
+        <label for="content">
+            <div>Post:</div>
+            <textarea name="body">{{body}}</textarea>
+            <div class="error">
+                <p>{{ post_content_error }}</p>
+            </div>
+        </label>
+        <input type="hidden" name="task-id" value="{{post.id}}" /> <!-- this is wrong here, but on the right track-->
+        <input type="submit" value="post it">
+    </form>
+</div>
 
 {% endblock %}
+
