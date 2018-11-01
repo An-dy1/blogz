@@ -2,6 +2,10 @@ body {
     font-family: 'PT Sans', sans-serif;
 }
 
+.error {
+    color: rgb(255, 0, 43);
+}
+
 header {
     font-family: 'Poppins', sans-serif;
     background-image: linear-gradient(23deg, rgb(22, 0, 54) 0%, rgb(65, 0, 145) 41%, rgb(255, 0, 43) 100%);
@@ -21,7 +25,11 @@ header {
 
 header a {
     color: #fff;
-    padding: 25px;
+    padding: 35px;
+}
+
+.nav-links {
+    display: inline; 
 }
 
 section h2 {
@@ -56,7 +64,7 @@ textarea {
 }
 
 footer {
-    background-image: linear-gradient(23deg, rgb(22, 0, 54) 0%, rgb(65, 0, 145) 41%, rgb(255, 0, 43) 100%);
+    background-image: linear-gradient(73deg, rgb(22, 0, 54) 0%, rgb(255, 0, 43) 42%, rgb(65, 0, 145) 89%);
     color: #fff;
 	bottom:0;
 	width:100%;
@@ -65,4 +73,9 @@ footer {
 
 footer a {
     color: #fff;
+}
+
+footer h2 {
+    padding-top: 30px;
+    padding-left: 15px;
 }
