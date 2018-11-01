@@ -4,13 +4,13 @@
 
     <h1 class="page-title">Blog posts!</h1>
 
-    {% if posts|length == 0 %} <!-- Do I specify a "posts" list somewhere??-->
+    {% if posts|length == 0 %}
     <p>No posts yet :/</p>
     {% else %}
     <article>
         {% for post in posts %}
         <section>
-            <h2><a href="/blog?id={0}".format(id)>{{post.title}}</a></h2> <!-- Probably need to edit "id" parameter"-->
+            <h2><a href="/blog?id={{post.id}}">{{post.title}}</a></h2>
             <p>{{post.body}}</p>
         </section>
         <hr />

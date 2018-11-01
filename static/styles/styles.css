@@ -19,7 +19,7 @@ header {
     color: rgb(65, 0, 145);
 }
 
-a {
+header a {
     color: #fff;
     padding: 25px;
 }
@@ -58,10 +58,11 @@ textarea {
 footer {
     background-image: linear-gradient(23deg, rgb(22, 0, 54) 0%, rgb(65, 0, 145) 41%, rgb(255, 0, 43) 100%);
     color: #fff;
-    display: flex;
-    flex-direction: column;
-    align-content: center;
-    bottom: 0;
-    width: 100%;
-    margin: 0 auto;
+	bottom:0;
+	width:100%;
+	height:90px;	
+}
+
+footer a {
+    color: #fff;
 }

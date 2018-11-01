@@ -31,8 +31,16 @@ def get_posts():
 @app.route('/blog', methods=['POST', 'GET'])
 def index():
 
+    post_id = request.args.get('id')
+    empty = not post_id
+
     posts = Post.query.all()
-    return render_template('blog.html', posts=posts)
+
+    if empty:
+        return render_template('blog.html', posts=posts)
+    else:
+        post = Post.query.get(post_id) #this is not written correctly yet
+        return render_template('single-post.html', post=post) #for that specific post, or does this need to be a redirect??
 
 @app.route('/newpost', methods=['GET', 'POST'])
 def create_post():
@@ -56,12 +64,14 @@ def create_post():
             post_content = ""
 
         if not post_title_error and not post_content_error:
-            new_post = Post(post_title, post_content) #something not quite right here; throwing lots o errors
+            new_post = Post(post_title, post_content)
             db.session.add(new_post)
             db.session.commit()
-            return redirect('/blog')
+            post_id = new_post.id
+            return redirect('/blog?id={0}'.format(post_id))
         else:
-            return render_template('newpost.html', post_title_error=post_title_error, post_content_error=post_content_error)
+            return render_template('newpost.html', post_title_error=post_title_error, 
+            post_content_error=post_content_error)
 
 
 if __name__ == '__main__':
