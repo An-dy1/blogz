@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, render_template
+from flask import Flask, request, redirect, render_template, flash, session
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -8,6 +8,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://blogz:lc101@localhost:8
 app.config['SQLALCHEMY_ECHO'] = True
 
 db = SQLAlchemy(app)
+
+app.secret_key = 'xokdtuzu'
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -87,6 +89,53 @@ def create_post():
             return render_template('newpost.html', post_title_error=post_title_error, 
             post_content_error=post_content_error)
 
+@app.route('/register', methods=['POST', 'GET'])
+def register():
+
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        verify = request.form['verify']
+
+        existing_user = User.query.filter_by(username=username).first()
+        if not existing_user:
+            password_good = (password == verify and len(password) > 4) #could add more checks if I wanted
+            new_user = User(username, password)
+            db.session.add(new_user)
+            db.session.commit()
+            session['username'] = username
+            return redirect('/')
+        elif existing_user:
+            flash("You already have an account!")
+            return render_template('login.html')
+        elif password != verify:
+            flash("Passwords don't match")
+            return render_template('register.html')
+
+    return render_template('register.html') #this happens first if it's a GET request
+
+@app.route('/login', methods=['POST', 'GET'])
+def login():
+
+    if request.method == "POST":
+        username = request.form['username']
+        password = request.form['password']
+        user = User.query.filter_by(username=username).first()
+
+        if not user:
+            flash("That user doesn't exist!", 'error')
+            return render_template('register.html')
+        elif user.password != password:
+            flash("Passwords don't match", 'error')
+            return render_template('login.html')
+        else: #this checks if user is anything other than "NONE" and compares the passwords to verify
+            #"remember" that the user has logged in
+            session['username'] = username #session is a dictionary
+            flash("Logged in")
+            print(session)      # TODO is this line still necessary?
+            return redirect ('/blog') #TODO what will happen after someone logs in? Not sure if this is the right place to redirect to
+
+    return render_template('login.html')
 
 if __name__ == '__main__':
     app.run()

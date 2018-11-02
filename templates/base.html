@@ -13,11 +13,20 @@
     <body>
 
         <header>
-            <div class = nav-links>
-                <h1 class="navigation"><a href="/blog">View posts</a></h1>
-                <h1><a href="/newpost">Write a post</a></h1> 
-            </div>
+            <span class="nav-links"><h1><a href="/blog">View posts</a></h1></span>
+            <span class="nav-links"><h1><a href="/newpost">Write a post</a></h1></span>
+            <span class="nav-links"><h1><a href="/login">Log in</a></h1></span>
+            <span class="nav-links"><h1><a href="/logout">Log out</a></h1></span>
+            <span class="nav-links"><h1><a href="/register">Register</a></h1></span>
         </header>
+
+        {% with messages=get_flashed_messages(with_categories=True) %} <!-- modify to retrieve categories-->
+            <ul>
+            {% for category,message in messages %} <!-- add category-->
+                <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endwith %}
 
         {% block content %}
         {% endblock %}
