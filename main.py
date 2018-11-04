@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, render_template, flash, session
+from flask import Flask, request, redirect, render_template, session, flash
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -42,9 +42,25 @@ def something_input(string):
 def get_posts():
     return Post.query.all()
 
-@app.route('/blog', methods=['POST', 'GET'])
-def index():
+@app.before_request #this route tells the program to run this function before every other request
+def require_login():
+    allowed_routes = ['login', 'register', 'blog_posts', 'index']
+    if request.endpoint not in allowed_routes and 'username' not in session: #what function in the code is the user trying to execute
+        return redirect('/login')
 
+@app.route('/')
+def index():
+    user_list = User.query.all() #HOW DO I DO THIS
+    return render_template('index.html', user_list=user_list) 
+
+@app.route('/blog', methods=['POST', 'GET'])
+def blog_posts():
+
+#TODO figure this shit out
+if request.method == "GET":
+    user_id = request.args.get('userId')
+
+if request.method == "POST":
     post_id = request.args.get('id')
     empty = not post_id
 
@@ -58,13 +74,11 @@ def index():
 
 @app.route('/newpost', methods=['GET', 'POST'])
 def create_post():
-    
-# TODO - rewrite this to assign newposts to their specific user 
 
-    if request.method == "GET":
-        return render_template('newpost.html')
+    # TODO - figure out why this isn't working and whether it is in the correct spot
+    owner = User.query.filter_by(username=session['username']).first()
 
-    else:
+    if request.method == 'POST':
         post_title = request.form.get('title')
         post_content = request.form.get('body')
 
@@ -80,7 +94,7 @@ def create_post():
             post_content = ""
 
         if not post_title_error and not post_content_error:
-            new_post = Post(post_title, post_content)
+            new_post = Post(post_title, post_content, owner)
             db.session.add(new_post)
             db.session.commit()
             post_id = new_post.id
@@ -88,6 +102,8 @@ def create_post():
         else:
             return render_template('newpost.html', post_title_error=post_title_error, 
             post_content_error=post_content_error)
+
+    return render_template('newpost.html')
 
 @app.route('/register', methods=['POST', 'GET'])
 def register():
@@ -136,6 +152,11 @@ def login():
             return redirect ('/blog') #TODO what will happen after someone logs in? Not sure if this is the right place to redirect to
 
     return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    del session['username']
+    return redirect('/blog')
 
 if __name__ == '__main__':
     app.run()
