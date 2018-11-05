@@ -50,30 +50,28 @@ def require_login():
 
 @app.route('/')
 def index():
-    user_list = User.query.all() #HOW DO I DO THIS
+    user_list = User.query.all()
     return render_template('index.html', user_list=user_list) 
 
 @app.route('/blog', methods=['POST', 'GET'])
 def blog_posts():
 
+    posts=Post.query.all()
+
     if request.method == "POST":
         post_id = request.args.get('id')
         empty = not post_id
 
-        posts = Post.query.all()
-
         if empty:
             return render_template('blog.html', posts=posts)
         else:
-            post = Post.query.get(post_id) #this is not written correctly yet
+            post = Post.query.get(post_id)
             return render_template('single-post.html', post=post)
 
-    elif request.method == 'GET':
-        user_id = request.form.get('user')
-        user_posts = Post.query.filter_by(owner_id=user_id)
-
+    else:
+        user_id = request.args.get('user')
+        user_posts = Post.query.filter_by(owner_id=user_id) #this is where my problem is
         empty = not user_id
-        posts=Post.query.all()
 
         if empty:
             return render_template('blog.html', posts=posts)
@@ -83,7 +81,6 @@ def blog_posts():
 @app.route('/newpost', methods=['GET', 'POST'])
 def create_post():
 
-    # TODO - figure out why this isn't working and whether it is in the correct spot
     owner = User.query.filter_by(username=session['username']).first()
 
     if request.method == 'POST':
