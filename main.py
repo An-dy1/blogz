@@ -63,20 +63,24 @@ def blog_posts():
         empty = not post_id
 
         if empty:
+            # users = #ugh
             return render_template('blog.html', posts=posts)
         else:
-            post = Post.query.get(post_id)
+            post = Post.query.get(post_id) #this is where another problem is
+            # owner = post.owner_id #yeah?
+            # user = User.query.get(owner)#how do I do this with just a postid? Use the first filter??
             return render_template('single-post.html', post=post)
-
+            
     else:
         user_id = request.args.get('user')
-        user_posts = Post.query.filter_by(owner_id=user_id) #this is where my problem is
         empty = not user_id
 
         if empty:
             return render_template('blog.html', posts=posts)
         else:
-            return render_template('user-posts.html', user_posts=user_posts)
+            user = User.query.get(user_id)
+            user_posts = Post.query.filter_by(owner_id=user_id)
+            return render_template('user-posts.html', user_posts=user_posts, user=user)
 
 @app.route('/newpost', methods=['GET', 'POST'])
 def create_post():

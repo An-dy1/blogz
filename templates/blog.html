@@ -5,7 +5,7 @@
     <h1 class="page-title">Blog posts!</h1>
 
     {% if posts|length == 0 %}
-    <p>No posts yet :/</p>
+    <p>No posts yet</p>
     {% else %}
     <article>
         {% for post in posts %}
@@ -17,7 +17,6 @@
         <hr />
     </article>
         {% endfor %}
-    </ul>
     {% endif %}
 
 
