@@ -12,7 +12,7 @@
         <section>
             <h2><a href="/blog?id={{post.id}}">{{post.title}}</a></h2>
             <p>{{post.body}}</p>
-            <p class="author">Post by <a href="/blog?user={{user.username}}"></a>.</p>
+            <p class="author">Post by <a href="/blog?user={{post.owner_id}}">{{ post.owner_id }}</a>.</p>
         </section>
         <hr />
     </article>

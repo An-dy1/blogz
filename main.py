@@ -56,21 +56,29 @@ def index():
 @app.route('/blog', methods=['POST', 'GET'])
 def blog_posts():
 
-#TODO figure this shit out
-if request.method == "GET":
-    user_id = request.args.get('userId')
+    if request.method == "POST":
+        post_id = request.args.get('id')
+        empty = not post_id
 
-if request.method == "POST":
-    post_id = request.args.get('id')
-    empty = not post_id
+        posts = Post.query.all()
 
-    posts = Post.query.all()
+        if empty:
+            return render_template('blog.html', posts=posts)
+        else:
+            post = Post.query.get(post_id) #this is not written correctly yet
+            return render_template('single-post.html', post=post)
 
-    if empty:
-        return render_template('blog.html', posts=posts)
-    else:
-        post = Post.query.get(post_id) #this is not written correctly yet
-        return render_template('single-post.html', post=post) #for that specific post, or does this need to be a redirect??
+    elif request.method == 'GET':
+        user_id = request.form.get('user')
+        user_posts = Post.query.filter_by(owner_id=user_id)
+
+        empty = not user_id
+        posts=Post.query.all()
+
+        if empty:
+            return render_template('blog.html', posts=posts)
+        else:
+            return render_template('user-posts.html', user_posts=user_posts)
 
 @app.route('/newpost', methods=['GET', 'POST'])
 def create_post():
@@ -114,8 +122,10 @@ def register():
         verify = request.form['verify']
 
         existing_user = User.query.filter_by(username=username).first()
-        if not existing_user:
-            password_good = (password == verify and len(password) > 4) #could add more checks if I wanted
+        matching_pw = (password == verify)
+        long_pw = (len(password) > 4)
+
+        if not existing_user and matching_pw and long_pw:
             new_user = User(username, password)
             db.session.add(new_user)
             db.session.commit()
@@ -124,8 +134,11 @@ def register():
         elif existing_user:
             flash("You already have an account!")
             return render_template('login.html')
-        elif password != verify:
+        elif not matching_pw:
             flash("Passwords don't match")
+            return render_template('register.html')
+        elif not long_pw:
+            flash("Password is not long enough")
             return render_template('register.html')
 
     return render_template('register.html') #this happens first if it's a GET request
@@ -142,7 +155,7 @@ def login():
             flash("That user doesn't exist!", 'error')
             return render_template('register.html')
         elif user.password != password:
-            flash("Passwords don't match", 'error')
+            flash("Password is incorrect", 'error')
             return render_template('login.html')
         else: #this checks if user is anything other than "NONE" and compares the passwords to verify
             #"remember" that the user has logged in
@@ -155,6 +168,7 @@ def login():
 
 @app.route('/logout')
 def logout():
+    flash("Logged out")
     del session['username']
     return redirect('/blog')
 
