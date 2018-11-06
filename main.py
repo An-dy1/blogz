@@ -62,7 +62,9 @@ def blog_posts():
 
     if post_id:
         post = Post.query.get(post_id)
-        return render_template('single-post.html', post=post)
+        user_id = post.owner_id
+        user = User.query.get(user_id)
+        return render_template('single-post.html', post=post, user=user)
     elif user_id:
         user = User.query.get(user_id)
         user_posts = Post.query.filter_by(owner_id=user_id)

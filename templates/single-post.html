@@ -6,7 +6,7 @@
     <section>
         <h2>{{post.title}}</h2>
         <p>{{post.body}}</p>
-        <p>Post by <a href="/blog?user={{post.owner_id}}">{{post.owner_id}}</a></p>
+        <p class="author">Post by <a href="/blog?user={{post.owner_id}}">{{ user.username }}</a></p>
     </section>
 </article>
 
