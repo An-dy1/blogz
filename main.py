@@ -53,10 +53,15 @@ def index():
     user_list = User.query.all()
     return render_template('index.html', user_list=user_list) 
 
+def get_user(post):
+    user = User.query.filter_by(id=post.owner_id)
+    name = user.username
+    return name
+
 @app.route('/blog', methods=['POST', 'GET'])
 def blog_posts():
 
-    posts=Post.query.all()
+    posts = Post.query.all()
     post_id = request.args.get('id')
     user_id = request.args.get('user')
 
@@ -71,12 +76,12 @@ def blog_posts():
         return render_template('user-posts.html', user_posts=user_posts, user=user)
     else:
         return render_template('blog.html', posts=posts)
-
+        
 
 @app.route('/newpost', methods=['GET', 'POST'])
 def create_post():
 
-    owner = User.query.filter_by(username=session['username']).first()
+    owner = User.query.filter_by(username=session['username']).first() 
 
     if request.method == 'POST':
         post_title = request.form.get('title')
