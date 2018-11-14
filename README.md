@@ -1,2 +1,2 @@
-# build-a-blog
+# blogz
 LC101 project, Unit 2
